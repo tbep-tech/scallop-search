@@ -1,0 +1,33 @@
+---
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r, message = F, warning = F}
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, echo = T, fig.path = 'figs/')
+
+library(tidyverse)
+library(sf)
+library(mapview)
+
+data(cntdat)
+data(hex)
+
+tomap <- cntdat %>% 
+  dplyr::filter(hex %in% !!hex$hex) %>% 
+  group_by(hex) %>% 
+  summarise(val = sum(val, na.rm = T), .groups = 'drop') %>% 
+  left_join(hex, ., by = 'hex') %>% 
+  filter(!is.na(val))
+```
+
+## 2020 Great Bay Scallop Search 
+
+Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found in each hexagon are shown by the intensity of the colors, including hexagons which were searched but no scallops were found.  Hexagons that were not searched are in transparent.  
+
+```{r, out.width = '100%'}
+mapview(hex, legend = F, fill = NA, homebutton = F) +
+  mapview(tomap, zcol = 'val', homebutton = F, layer.name = 'Scallops found', alpha.regions = 0.6)
+```
+
