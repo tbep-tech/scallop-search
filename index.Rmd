@@ -1,15 +1,27 @@
 ---
+title: "2020 Great Bay Scallop Search"
 output: 
-  html_document:
-    code_folding: hide
+  flexdashboard::flex_dashboard:
+    orientation: rows
+css: styles.css
 ---
 
-```{r, message = F, warning = F}
-knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, echo = T, fig.path = 'figs/')
+```{r, message = F, warning = F, echo = F}
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F, echo = F, fig.path = 'figs/')
 
 library(tidyverse)
 library(sf)
 library(mapview)
+library(flexdashboard)
+library(extrafont)
+library(shiny)
+library(colorspace)
+
+loadfonts(device = 'pdf', quiet = T)
+if(Sys.info()[1] == 'Windows')
+  loadfonts(device = 'win', quiet = T)
+
+col <- '#00806E'
 
 data(cntdat)
 data(hex)
@@ -20,14 +32,43 @@ tomap <- cntdat %>%
   summarise(val = sum(val, na.rm = T), .groups = 'drop') %>% 
   left_join(hex, ., by = 'hex') %>% 
   filter(!is.na(val))
+
+# colpal <- mapviewPalette("mapviewTopoColors")
 ```
 
-## 2020 Great Bay Scallop Search 
+Column
+-------------------------------------
+
+###
 
 Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found in each hexagon are shown by the intensity of the colors, including hexagons which were searched but no scallops were found.  Hexagons that were not searched are transparent.  Raw data with missing or incorrect hexagon site numbers are omitted. 
 
 ```{r, out.width = '100%'}
 mapview(hex, legend = F, fill = NA, homebutton = F) +
-  mapview(tomap, zcol = 'val', homebutton = F, layer.name = 'Scallops found', alpha.regions = 0.5)
+  mapview(tomap, zcol = 'val', homebutton = F, layer.name = 'Scallops found', alpha.regions = 0.5)#, col.regions = colpal)
+```
+
+Column
+-------------------------------------
+
+###
+
+```{r}
+cnts <- sum(cntdat$val, na.rm = T)
+valueBox(cnts, 'Scallops found', color = col)
+```
+
+###
+
+```{r}
+cnts <- length(unique(cntdat$id))
+valueBox(cnts, 'Boats searching', color = col)
+```
+
+###
+
+```{r}
+cnts <- length(unique(cntdat$hex))
+valueBox(cnts, 'Locations searched', color = col)
 ```
 
