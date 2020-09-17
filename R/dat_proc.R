@@ -25,7 +25,7 @@ cnts <- rawdat %>%
   gather('var', 'val', -id) %>%
   separate(var, c('Site', 'rep'), sep = '_') %>%
   group_by(id, Site) %>%
-  summarise(val = sum(val, na.rm = T), .groups = 'drop')
+  summarise(`Scallops found` = sum(val, na.rm = T), .groups = 'drop')
 
 cntdat <- rawdat %>%
   select(Site1, Site2, id) %>%

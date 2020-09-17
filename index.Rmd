@@ -16,6 +16,7 @@ library(flexdashboard)
 library(extrafont)
 library(shiny)
 library(colorspace)
+library(leaflet)
 
 loadfonts(device = 'pdf', quiet = T)
 if(Sys.info()[1] == 'Windows')
@@ -29,11 +30,21 @@ data(hex)
 tomap <- cntdat %>% 
   dplyr::filter(hex %in% !!hex$hex) %>% 
   group_by(hex) %>% 
-  summarise(val = sum(val, na.rm = T), .groups = 'drop') %>% 
+  summarise(
+    `Scallops found` = sum(`Scallops found`, na.rm = T),  
+    `Boats searching` = length(unique(id)),
+    .groups = 'drop'
+    ) %>% 
   left_join(hex, ., by = 'hex') %>% 
-  filter(!is.na(val))
+  rename(Site = hex) %>% 
+  mutate(
+    lab = case_when(
+      is.na(`Scallops found`) ~ paste0('Site ', Site, ', not searched'), 
+      T ~ paste0('Site ', Site, ', ', `Scallops found`, ' scallops found, ', `Boats searching`, ' boat(s) searching')
+    )
+  )
 
-# colpal <- mapviewPalette("mapviewTopoColors")
+colpal <- colorNumeric(palette = c('tomato1', 'lightgreen', '#00806E'), na.color = "#FFFFFF00", domain = range(tomap$`Scallops found`, na.rm = T), alpha = TRUE)
 ```
 
 Column
@@ -44,8 +55,20 @@ Column
 Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found in each hexagon are shown by the intensity of the colors, including hexagons which were searched but no scallops were found.  Hexagons that were not searched are transparent.  Raw data with missing or incorrect hexagon site numbers are omitted. 
 
 ```{r, out.width = '100%'}
-mapview(hex, legend = F, fill = NA, homebutton = F) +
-  mapview(tomap, zcol = 'val', homebutton = F, layer.name = 'Scallops found', alpha.regions = 0.5)#, col.regions = colpal)
+mapview(tomap, legend = F, fill = NA, homebutton = F) %>% 
+  .@map %>% 
+  clearShapes() %>% 
+  addPolygons(
+    data = tomap, 
+    stroke = T, 
+    color = 'black', 
+    weight = 1,
+    fillColor = ~colpal(`Scallops found`),
+    fillOpacity = 0.4, 
+    opacity = 1,
+    label = ~lab
+  ) %>% 
+  addLegend("topright", pal = colpal, title = 'Scallops found', values = tomap$`Scallops found`, opacity = 0.6)
 ```
 
 Column
@@ -54,21 +77,21 @@ Column
 ###
 
 ```{r}
-cnts <- sum(cntdat$val, na.rm = T)
-valueBox(cnts, 'Scallops found', color = col)
+cnts <- sum(cntdat$`Scallops found`, na.rm = T)
+valueBox(cnts, 'Scallops found', color = col, icon = 'fa-search')
 ```
 
 ###
 
 ```{r}
 cnts <- length(unique(cntdat$id))
-valueBox(cnts, 'Boats searching', color = col)
+valueBox(cnts, 'Boats searching', color = col, icon = 'fa-ship')
 ```
 
 ###
 
 ```{r}
 cnts <- length(unique(cntdat$hex))
-valueBox(cnts, 'Locations searched', color = col)
+valueBox(cnts, 'Locations searched', color = col, icon = 'fa-map')
 ```
 
