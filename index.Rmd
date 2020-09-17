@@ -53,7 +53,7 @@ Column
 
 ###
 
-Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found in each hexagon are shown by the intensity of the colors, including hexagons which were searched but no scallops were found.  Hexagons that were not searched are transparent.  Raw data with missing or incorrect hexagon site numbers are omitted. 
+Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted. 
 
 ```{r, out.width = '100%'}
 mapview(tomap, legend = F, fill = NA, homebutton = F) %>% 
