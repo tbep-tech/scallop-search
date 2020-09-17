@@ -40,7 +40,8 @@ tomap <- cntdat %>%
   mutate(
     lab = case_when(
       is.na(`Scallops found`) ~ paste0('Site ', Site, ', not searched'), 
-      T ~ paste0('Site ', Site, ', ', `Scallops found`, ' scallops found, ', `Boats searching`, ' boat(s) searching')
+      `Boats searching` == 1 ~ paste0('Site ', Site, ', ', `Scallops found`, ' scallops found, ', `Boats searching`, ' boat searching'),
+      T ~ paste0('Site ', Site, ', ', `Scallops found`, ' scallops found, ', `Boats searching`, ' boats searching')
     )
   )
 
