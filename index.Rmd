@@ -51,9 +51,7 @@ colpal <- colorNumeric(palette = c('tomato1', 'lightgreen', '#00806E'), na.color
 Column
 -------------------------------------
 
-###
-
-Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted. 
+### Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.  
 
 ```{r, out.width = '100%'}
 mapview(tomap, legend = F, fill = NA, homebutton = F) %>% 
@@ -72,10 +70,11 @@ mapview(tomap, legend = F, fill = NA, homebutton = F) %>%
   addLegend("topright", pal = colpal, title = 'Scallops found', values = tomap$`Scallops found`, opacity = 0.6)
 ```
 
+
 Column
 -------------------------------------
 
-###
+### 
 
 ```{r}
 cnts <- sum(cntdat$`Scallops found`, na.rm = T)
