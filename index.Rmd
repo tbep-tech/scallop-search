@@ -14,8 +14,6 @@ library(sf)
 library(mapview)
 library(flexdashboard)
 library(extrafont)
-library(shiny)
-library(colorspace)
 library(leaflet)
 library(plotly)
 
