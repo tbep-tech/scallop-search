@@ -9,7 +9,7 @@ name: build
 jobs:
   render:
     name: build
-    runs-on: macOS-latest
+    runs-on: ubuntu-20.04
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -18,10 +18,13 @@ jobs:
           fetch-depth: 2 # This is important to set for `git diff-tree` to work below
       - uses: r-lib/actions/setup-r@v1
       - uses: r-lib/actions/setup-pandoc@v1
-      - name: Install sf depends
+      - name: Install ubuntu dependencies
         run: |
-          brew install gdal
-          brew install udunits
+          sudo apt-get install libudunits2-dev
+          sudo apt-get install libgdal-dev
+          sudo apt-get install libgeos-dev
+          sudo apt-get install libproj-dev
+          sudo apt-get install libpoppler-cpp-dev
       - name: Install package dependencies
         run: |
           install.packages(c("remotes", "tidyverse", "plotly", "mapview", "flexdashboard", "extrafont", "leaflet"))
