@@ -24,7 +24,8 @@ jobs:
           brew install udunits
       - name: Install package dependencies
         run: |
-          install.packages(c("tidyverse", "plotly", "sf", "mapview", "flexdashboard", "extrafont", "leaflet"))
+          install.packages(c("remotes", "tidyverse", "plotly", "mapview", "flexdashboard", "extrafont", "leaflet"))
+          remotes::install_version('sf', version = '0.9-8')
         shell: Rscript {0}
       - name: Render index
         run: Rscript -e 'rmarkdown::render("index.Rmd")'
