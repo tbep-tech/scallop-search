@@ -50,7 +50,7 @@ sclbox_fun <- function(cntdat, yr){
     pull(`Scallops found`) %>%
     sum(na.rm = T)
 
-  out <- valueBox(cnts, 'Scallops found', color = col, icon = 'fa-search')
+  out <- valueBox(cnts, paste('Scallops found in', yr), color = '#427355', icon = 'fa-search')
 
   return(out)
 
@@ -65,22 +65,77 @@ btsbox_fun <- function(cntdat, yr){
     unique %>%
     length
 
-  out <- valueBox(cnts, 'Boats searching', color = col, icon = 'fa-ship')
+  out <- valueBox(cnts, paste('Boats searching in', yr), color = '#004F7E', icon = 'fa-ship')
 
   return(out)
 
 }
 
-# locations searched value box
-lcsbox_fun <- function(cntdat, yr){
+# scallops scaled value box
+cntbox_fun <- function(cntdat, yr){
 
   cnts <- cntdat %>%
     filter(yr == !!yr) %>%
-    pull(hex) %>%
-    unique %>%
-    length
+    summarise(
+      tot = sum(`Scallops found`, na.rm = T),
+      bts = length(unique(id)),
+      .groups = 'drop'
+    ) %>%
+    mutate(
+      totscl = round(tot / bts, 1)
+    ) %>%
+    pull(totscl)
 
-  out <- valueBox(cnts, 'Locations searched', color = col, icon = 'fa-map')
+  out <- valueBox(cnts, paste('Scallops per boat in', yr), color = '#958984', icon = 'fa-balance-scale')
+
+  return(out)
+
+}
+
+# summary trends bar plot
+sumplo_fun <- function(cntdat){
+
+  toplo <- cntdat %>%
+    group_by(yr) %>%
+    summarise(
+      tot = sum(`Scallops found`, na.rm = T),
+      bts = length(unique(id)),
+      .groups = 'drop'
+    ) %>%
+    mutate(
+      yr = factor(yr, levels = seq(min(yr), max(yr))),
+      totscl = round(tot / bts, 1)
+    ) %>%
+    complete(yr)
+
+  p1 <- plot_ly(toplo, x = ~yr, y = ~tot, type = 'bar', color = I('#427355'), text = ~tot,
+                hoverinfo = 'y'
+  ) %>%
+    layout(
+      yaxis = list(title = 'Total scallops found', rangemode = 'nonnegative'),
+      xaxis = list(title = ''),
+      showlegend = FALSE
+    )
+
+  p2 <- plot_ly(toplo, x = ~yr, y = ~bts, type = 'bar', color = I('#004F7E'), text = ~bts,
+                hoverinfo = 'y'
+  ) %>%
+    layout(
+      yaxis = list(title = 'Boats searching', rangemode = 'nonnegative'),
+      xaxis = list(title = ''),
+      showlegend = FALSE
+    )
+
+  p3 <- plot_ly(toplo, x = ~yr, y = ~totscl, type = 'bar', color = I('#958984'), text = ~totscl,
+                hoverinfo = 'y'
+  ) %>%
+    layout(
+      yaxis = list(title = 'Scallops per boat', rangemode = 'nonnegative'),
+      xaxis = list(title = ''),
+      showlegend = FALSE
+    )
+
+  out <- subplot(p1, p2, p3, shareX = TRUE, titleY = TRUE, nrows = 3)
 
   return(out)
 

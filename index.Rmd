@@ -17,6 +17,7 @@ library(extrafont)
 library(shiny)
 library(colorspace)
 library(leaflet)
+library(plotly)
 
 source('R/funcs.R')
 
@@ -25,6 +26,8 @@ if(Sys.info()[1] == 'Windows')
   loadfonts(device = 'win', quiet = T)
 
 col <- '#00806E'
+
+txt <- 'Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.'
 
 data(cntdat)
 data(hex)
@@ -36,7 +39,7 @@ data(hex)
 Column
 -------------------------------------
 
-### Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.  
+### `r txt`  
 
 ```{r, out.width = '100%'}
 yr <- 2020
@@ -61,7 +64,7 @@ btsbox_fun(cntdat, yr)
 ###
 
 ```{r}
-lcsbox_fun(cntdat, yr)
+cntbox_fun(cntdat, yr)
 ```
 
 2019 {data-navmenu="RESULTS BY YEAR"}
@@ -70,7 +73,7 @@ lcsbox_fun(cntdat, yr)
 Column
 -------------------------------------
 
-### Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.  
+### `r txt`  
 
 ```{r, out.width = '100%'}
 yr <- 2019
@@ -95,7 +98,7 @@ btsbox_fun(cntdat, yr)
 ###
 
 ```{r}
-lcsbox_fun(cntdat, yr)
+cntbox_fun(cntdat, yr)
 ```
 
 2017 {data-navmenu="RESULTS BY YEAR"}
@@ -104,7 +107,7 @@ lcsbox_fun(cntdat, yr)
 Column
 -------------------------------------
 
-### Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.  
+### `r txt`  
 
 ```{r, out.width = '100%'}
 yr <- 2017
@@ -129,7 +132,7 @@ btsbox_fun(cntdat, yr)
 ###
 
 ```{r}
-lcsbox_fun(cntdat, yr)
+cntbox_fun(cntdat, yr)
 ```
 
 2015 {data-navmenu="RESULTS BY YEAR"}
@@ -138,7 +141,7 @@ lcsbox_fun(cntdat, yr)
 Column
 -------------------------------------
 
-### Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.  
+### `r txt`  
 
 ```{r, out.width = '100%'}
 yr <- 2015
@@ -163,7 +166,7 @@ btsbox_fun(cntdat, yr)
 ###
 
 ```{r}
-lcsbox_fun(cntdat, yr)
+cntbox_fun(cntdat, yr)
 ```
 
 2014 {data-navmenu="RESULTS BY YEAR"}
@@ -172,7 +175,7 @@ lcsbox_fun(cntdat, yr)
 Column
 -------------------------------------
 
-### Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.  
+### `r txt`  
 
 ```{r, out.width = '100%'}
 yr <- 2014
@@ -197,7 +200,7 @@ btsbox_fun(cntdat, yr)
 ###
 
 ```{r}
-lcsbox_fun(cntdat, yr)
+cntbox_fun(cntdat, yr)
 ```
 
 2011 {data-navmenu="RESULTS BY YEAR"}
@@ -206,7 +209,7 @@ lcsbox_fun(cntdat, yr)
 Column
 -------------------------------------
 
-### Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.  
+### `r txt`  
 
 ```{r, out.width = '100%'}
 yr <- 2011
@@ -231,7 +234,7 @@ btsbox_fun(cntdat, yr)
 ###
 
 ```{r}
-lcsbox_fun(cntdat, yr)
+cntbox_fun(cntdat, yr)
 ```
 
 2010 {data-navmenu="RESULTS BY YEAR"}
@@ -240,7 +243,7 @@ lcsbox_fun(cntdat, yr)
 Column
 -------------------------------------
 
-### Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.  
+### `r txt`  
 
 ```{r, out.width = '100%'}
 yr <- 2010
@@ -265,7 +268,7 @@ btsbox_fun(cntdat, yr)
 ###
 
 ```{r}
-lcsbox_fun(cntdat, yr)
+cntbox_fun(cntdat, yr)
 ```
 
 2009 {data-navmenu="RESULTS BY YEAR"}
@@ -274,7 +277,7 @@ lcsbox_fun(cntdat, yr)
 Column
 -------------------------------------
 
-### Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.  
+### `r txt`  
 
 ```{r, out.width = '100%'}
 yr <- 2009
@@ -299,7 +302,7 @@ btsbox_fun(cntdat, yr)
 ###
 
 ```{r}
-lcsbox_fun(cntdat, yr)
+cntbox_fun(cntdat, yr)
 ```
 
 2008 {data-navmenu="RESULTS BY YEAR"}
@@ -308,7 +311,7 @@ lcsbox_fun(cntdat, yr)
 Column
 -------------------------------------
 
-### Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.  
+### `r txt`  
 
 ```{r, out.width = '100%'}
 yr <- 2008
@@ -333,7 +336,7 @@ btsbox_fun(cntdat, yr)
 ###
 
 ```{r}
-lcsbox_fun(cntdat, yr)
+cntbox_fun(cntdat, yr)
 ```
 
 2007 {data-navmenu="RESULTS BY YEAR"}
@@ -342,7 +345,7 @@ lcsbox_fun(cntdat, yr)
 Column
 -------------------------------------
 
-### Hexagons show site locations where volunteers searched for scallops.  Counts for the total number of scallops found at each site are shown by the intensity of the colors, including sites which were searched but no scallops were found.  Sites that were not searched are transparent.  Raw data with missing or incorrect site numbers were omitted.  
+### `r txt`
 
 ```{r, out.width = '100%'}
 yr <- 2007
@@ -367,8 +370,18 @@ btsbox_fun(cntdat, yr)
 ###
 
 ```{r}
-lcsbox_fun(cntdat, yr)
+cntbox_fun(cntdat, yr)
 ```
 
 TRENDS
 =======================================================================
+
+Column
+--------------------------------------
+
+### These plots show summary trends across all years when the scallop search occurred. The top plot shows total scallops found, the middle plot shows total boats searching, and the bottom plot shows the scallops per boat.  
+
+```{r, out.width = '100%'}
+sumplo_fun(cntdat)
+```
+
