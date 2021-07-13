@@ -21,7 +21,7 @@ jobs:
       - name: Install sf depends
         run: |
           brew install gdal
-          bres install udunits
+          brew install udunits
       - name: Install package dependencies
         run: |
           install.packages(c("tidyverse", "plotly", "sf", "mapview", "flexdashboard", "extrafont", "leaflet"))
