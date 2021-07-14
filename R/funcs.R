@@ -36,7 +36,8 @@ plo_fun <- function(cntdat, yr, colpal = NULL){
       opacity = 1,
       label = ~lab
     ) %>%
-    addLegend("topright", pal = colpal, title = 'Scallops found', values = tomap$`Scallops found`, opacity = 0.6)
+    addLegend("topright", pal = colpal, title = 'Scallops found', values = tomap$`Scallops found`, opacity = 0.6) %>%
+    setView(-82.6914, 27.68572, zoom = 12)
 
   return(out)
 
