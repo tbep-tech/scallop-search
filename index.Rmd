@@ -105,6 +105,8 @@ Please visit the [Tampa Bay Watch](https://tampabaywatch.org/restoration/scallop
 knitr::include_graphics('www/logos.png')
 ```
 
+Citation info here: [![DOI](https://zenodo.org/badge/295835015.svg)](https://zenodo.org/badge/latestdoi/295835015)
+
 <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'><img alt='Creative Commons License' style='border-width:0' src='https://i.creativecommons.org/l/by/4.0/88x31.png' /></a>&nbsp;&nbsp;This website is licensed under a <a rel='license' href='http://creativecommons.org/licenses/by/4.0/'>Creative Commons Attribution 4.0 International License</a>.
 
 </div>
