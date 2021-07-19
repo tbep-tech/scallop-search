@@ -109,12 +109,14 @@ sumplo_fun <- function(cntdat){
     ) %>%
     complete(yr)
 
+  fntsz <- 15
+
   p1 <- plot_ly(toplo, x = ~yr, y = ~tot, type = 'bar', color = I('#427355'), text = ~tot,
                 hoverinfo = 'y'
   ) %>%
     layout(
-      yaxis = list(title = 'Total scallops found', rangemode = 'nonnegative'),
-      xaxis = list(title = ''),
+      yaxis = list(title = 'Total scallops found', rangemode = 'nonnegative', titlefont = list(size = fntsz), tickfont = list(size = fntsz)),
+      xaxis = list(title = '', titlefont = list(size = fntsz), tickfont = list(size = fntsz)),
       showlegend = FALSE
     )
 
@@ -122,8 +124,8 @@ sumplo_fun <- function(cntdat){
                 hoverinfo = 'y'
   ) %>%
     layout(
-      yaxis = list(title = 'Boats searching', rangemode = 'nonnegative'),
-      xaxis = list(title = ''),
+      yaxis = list(title = 'Boats searching', rangemode = 'nonnegative', titlefont = list(size = fntsz), tickfont = list(size = fntsz)),
+      xaxis = list(title = '', titlefont = list(size = fntsz), tickfont = list(size = fntsz)),
       showlegend = FALSE
     )
 
@@ -131,8 +133,8 @@ sumplo_fun <- function(cntdat){
                 hoverinfo = 'y'
   ) %>%
     layout(
-      yaxis = list(title = 'Scallops per boat', rangemode = 'nonnegative'),
-      xaxis = list(title = ''),
+      yaxis = list(title = 'Scallops per boat', rangemode = 'nonnegative', titlefont = list(size = fntsz), tickfont = list(size = fntsz)),
+      xaxis = list(title = '', titlefont = list(size = fntsz), tickfont = list(size = fntsz)),
       showlegend = FALSE
     )
 
