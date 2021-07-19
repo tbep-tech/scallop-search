@@ -31,6 +31,77 @@ data(cntdat)
 data(hex)
 ```
 
+SCALLOPS 101
+=======================================================================
+
+Column
+-------------------------------------
+
+### 
+
+<div class = "row">
+<div class = "col-md-2"></div>
+<div class = "col-md-8">
+
+```{r, fig.align = 'center', out.width = '100%'}
+knitr::include_graphics('www/scallop_bucket_fade.jpg')
+```
+
+#### What are scallops? 
+ 
+Bay scallops are marine bivalves, or mollusks with a hinged shell, that are often found hidden among a forest of seagrass. Adults can grow to be about two inches in diameter. They are easily distinguished from other animals hiding in the seagrass by their bright, blue eyes. Catching these animals can be a challenge because they rapidly open and close their shells to propel themselves forward to escape predators. 
+
+```{r, fig.align = 'center', out.width = '60%'}
+knitr::include_graphics('www/scallops open in hand boat in focus.jpg')
+```
+
+#### Why are scallops important?
+
+Having a robust population of scallops in the estuary is important for many reasons. Scallops are filter feeders and remove algae and organic matter from the water column. Additionally, during periods of red tide, they help remove algae cells and store toxins in their gut. 
+ 
+Scallops are a key indicator of Bay health due to their requirement for clear, salty water, and robust seagrass habitat. (CCMP, 2017)
+
+```{r, fig.align = 'center', out.width = '60%'}
+knitr::include_graphics('www/scallop.jpg')
+```
+
+#### Can I harvest scallops in Tampa Bay?
+
+Historically, scallops were harvested throughout the Tampa Bay estuary, however, their population disappeared around the 1960s. The disappearance was likely a result of degrading water quality conditions and scallop overharvesting. Efforts to restore scallop populations began in the 1990s, around the same time seagrass acreage started to rebound. To restore the population, efforts to “seed” scallops, or grow them in a hatchery and release into the bay under protected cages, have been attempted with limited success. 
+ 
+Although monitoring efforts do display periodic increases in scallop numbers, recreational harvesting of bay scallops remains closed in Tampa Bay. 
+
+```{r, fig.align = 'center', out.width = '60%'}
+knitr::include_graphics('www/tbw skiff with snorkeler.jpg')
+```
+
+#### What affects scallop populations? 
+
+Despite significantly improved water quality conditions, restored seagrass habitat, and restoration efforts, bay scallops have yet to rebound to historical values. There are many factors that are complicating successful scallop restoration. Bay scallops are extremely sensitive to changes in water quality, including prevalence of harmful algal blooms like red tide, and rapid shifts in salinity and temperature. In addition to environmental conditions, scallop life cycle could also be complicating restoration efforts. Scallops have a limited lifespan of only 12-18 months during which they grow from larval stage to adult scallop and spawn. Furthermore, it is estimated that only one out of 12 million eggs survive to adulthood.  
+ 
+Scallops are a food source for many sharks and rays that live and feed in Tampa Bay. As a result of successful management and conservation efforts, Tampa Bay has seen a robust recovery of fish populations, which include sharks and rays. This illustrates how successful conservation strategies can present new challenges.
+
+```{r, fig.align = 'center', out.width = '60%'}
+knitr::include_graphics('www/bay scallop-katie laakkonen.jpg')
+```
+
+#### What is the Great Bay Scallop Search? 
+
+To monitor scallop population numbers, Tampa Bay Watch has been conducting an annual citizen science scallop search since 2004. The Great Bay Scallop Search occurs the 3rd Saturday in August and has about 200 people in attendance! In recent years, citizen scientists have focused monitoring efforts in Lower Tampa Bay because this is were salinity is highest and seagrasses are healthy. 
+ 
+On the day of the event, all surveyers meet at Fort Desoto Boat Ramp where they receive their survey locations, equipment, and training on how to conduct the survey. They use the same methods utalized by scientists around Florida. 
+
+```{r, fig.align = 'center', out.width = '60%'}
+knitr::include_graphics('www/scallop search team waving 1.jpg')
+```
+
+#### More information
+
+
+</div>
+<div class = "col-md-2"></div>
+</div>
+
 2020 {data-navmenu="RESULTS BY YEAR"}
 =======================================================================
 
