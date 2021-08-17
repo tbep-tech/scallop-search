@@ -45,7 +45,7 @@ Column
 <div class = "col-md-2"></div>
 <div class = "col-md-8">
 
-```{r, fig.align = 'center', out.width = '100%'}
+```{r, fig.align = 'center', out.width = '80%'}
 knitr::include_graphics('www/Great Bay Scallop Search Dashboard.png')
 ```
 
@@ -53,7 +53,7 @@ knitr::include_graphics('www/Great Bay Scallop Search Dashboard.png')
  
 Bay scallops are marine bivalves, or mollusks with a hinged shell, that are often found hidden among a forest of seagrass. Adults can grow to be about two inches in diameter. They are easily distinguished from other animals hiding in the seagrass by their bright, blue eyes. Catching these animals can be a challenge because they rapidly open and close their shells to propel themselves forward to escape predators. 
 
-```{r, fig.align = 'center', out.width = '60%'}
+```{r, fig.align = 'center', out.width = '50%'}
 knitr::include_graphics('www/scallops open in hand boat in focus.jpg')
 ```
 
@@ -63,7 +63,7 @@ Having a robust population of scallops in the estuary is important for many reas
  
 Scallops are a key indicator of Bay health due to their requirement for clear, salty water, and robust seagrass habitat ([CCMP, 2017](https://indd.adobe.com/view/cf7b3c48-d2b2-4713-921c-c2a0d4466632){target="_blank"}).
 
-```{r, fig.align = 'center', out.width = '60%'}
+```{r, fig.align = 'center', out.width = '50%'}
 knitr::include_graphics('www/scallop.jpg')
 ```
 
@@ -73,7 +73,7 @@ Historically, scallops were harvested throughout the Tampa Bay estuary, however,
  
 Although monitoring efforts do display periodic increases in scallop numbers, recreational harvesting of bay scallops remains closed in Tampa Bay. 
 
-```{r, fig.align = 'center', out.width = '60%'}
+```{r, fig.align = 'center', out.width = '50%'}
 knitr::include_graphics('www/tbw skiff with snorkeler.jpg')
 ```
 
@@ -83,7 +83,7 @@ Despite significantly improved water quality conditions, restored seagrass habit
  
 Scallops are a food source for many sharks and rays that live and feed in Tampa Bay. As a result of successful management and conservation efforts, Tampa Bay has seen a robust recovery of fish populations, which include sharks and rays. This illustrates how successful conservation strategies can present new challenges.
 
-```{r, fig.align = 'center', out.width = '60%'}
+```{r, fig.align = 'center', out.width = '50%'}
 knitr::include_graphics('www/bay scallop-katie laakkonen.jpg')
 ```
 
@@ -93,7 +93,7 @@ To monitor scallop population numbers, Tampa Bay Watch has been conducting an an
  
 On the day of the event, all surveyers meet at Fort Desoto Boat Ramp where they receive their survey locations, equipment, and training on how to conduct the survey. They use the same methods utalized by scientists around Florida. 
 
-```{r, fig.align = 'center', out.width = '60%'}
+```{r, fig.align = 'center', out.width = '50%'}
 knitr::include_graphics('www/scallop search team waving 1.jpg')
 ```
 
@@ -101,7 +101,7 @@ knitr::include_graphics('www/scallop search team waving 1.jpg')
 
 Please visit the [Tampa Bay Watch](https://tampabaywatch.org/restoration/scallop-search/){target="_blank"} web page for more information about the Scallop Search. This dashboard was a collaboration between [Tampa Bay Watch](https://tampabaywatch.org/restoration/scallop-search/){target="_blank"} and the [Tampa Bay Estuary Program](https://www.tbep.org){target="_blank"}. Questions and comments about the dashboard can be sent to [Marcus Beck](mailto:mbeck@tbep.org) or [Sheila Scolaro](mailto:sscolaro@tbep.org). The website source content can be viewed on [Github](https://github.com/tbep-tech/scallop-search). Like this app? Share it on social media using the [\#TampaBayOpenSci](https://twitter.com/hashtag/TampaBayOpenSci?src=hashtag_click) hashtag.  
 
-```{r, fig.align = 'center', out.width = '80%'}
+```{r, fig.align = 'center', out.width = '70%'}
 knitr::include_graphics('www/logos.png')
 ```
 
