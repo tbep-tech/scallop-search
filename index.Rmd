@@ -46,7 +46,7 @@ Column
 <div class = "col-md-8">
 
 ```{r, fig.align = 'center', out.width = '100%'}
-knitr::include_graphics('www/scallop_bucket_fade.jpg')
+knitr::include_graphics('www/Great Bay Scallop Search Dashboard.png')
 ```
 
 #### What are scallops? 
@@ -101,7 +101,7 @@ knitr::include_graphics('www/scallop search team waving 1.jpg')
 
 Please visit the [Tampa Bay Watch](https://tampabaywatch.org/restoration/scallop-search/){target="_blank"} web page for more information about the Scallop Search. This dashboard was a collaboration between [Tampa Bay Watch](https://tampabaywatch.org/restoration/scallop-search/){target="_blank"} and the [Tampa Bay Estuary Program](https://www.tbep.org){target="_blank"}. Questions and comments about the dashboard can be sent to [Marcus Beck](mailto:mbeck@tbep.org) or [Sheila Scolaro](mailto:sscolaro@tbep.org). The website source content can be viewed on [Github](https://github.com/tbep-tech/scallop-search). Like this app? Share it on social media using the [\#TampaBayOpenSci](https://twitter.com/hashtag/TampaBayOpenSci?src=hashtag_click) hashtag.  
 
-```{r, fig.align = 'center', out.width = '90%'}
+```{r, fig.align = 'center', out.width = '80%'}
 knitr::include_graphics('www/logos.png')
 ```
 
