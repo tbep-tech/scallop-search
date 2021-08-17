@@ -5,6 +5,8 @@ output:
     orientation: rows
     social: menu
     source_code: "https://github.com/tbep-tech/scallop-search"
+    includes:
+      in_header: google-analytics.html
 css: styles.css
 ---
 
