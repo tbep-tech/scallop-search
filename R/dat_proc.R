@@ -79,7 +79,7 @@ cntdat2020 <- rawdat %>%
 # data up to 2019 -----------------------------------------------------------------------------
 
 # sheet id
-id <- fls[grep('Scallop_Search_to_2019', fls$name), 'id'] %>% pull(id)
+id <- fls[grep('Scallop_Search_2019_and_prior', fls$name), 'id'] %>% pull(id)
 
 # tabs in sheet
 shts <- sheet_properties(id) %>%
