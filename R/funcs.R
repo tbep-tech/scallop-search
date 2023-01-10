@@ -104,7 +104,7 @@ sumplo_fun <- function(cntdat){
       .groups = 'drop'
     ) %>%
     mutate(
-      yr = factor(yr, levels = seq(min(yr), max(yr))),
+      yr = factor(yr),
       totscl = round(tot / bts, 1)
     ) %>%
     complete(yr)

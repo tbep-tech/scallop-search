@@ -17,6 +17,30 @@ fls <- drive_ls(gdrive_pth, type = 'spreadsheet')
 
 # format google drive data --------------------------------------------------------------------
 
+# 2022 data -----------------------------------------------------------------------------------
+
+id <- fls[grep('Scallop_Search_2022', fls$name), 'id'] %>% pull(id)
+
+rawdat <- read_sheet(id)
+
+cntdat2022 <- rawdat %>%
+  select(
+    id = `Captain #`,
+    Site = `Site #`,
+    transect = `Transect #`,
+    hex = `Hexagon Site Number`,
+    `Scallops found` = `Scallop Count`
+    ) %>%
+  fill(id) %>%
+  group_by(id, Site, hex) %>%
+  summarise(`Scallops found` = sum(`Scallops found`), .groups = 'drop') %>%
+  mutate(
+    yr = 2022,
+    Site = ifelse(!is.na(Site), paste0('Site', Site), Site)
+    ) %>%
+  select(yr, everything()) %>%
+  arrange(id, Site)
+
 ## 2020 data --------------------------------------------------------------
 
 # sheet id
@@ -51,7 +75,6 @@ cntdat2020 <- rawdat %>%
     yr = 2020
   ) %>%
   arrange(id, Site)
-
 
 # data up to 2019 -----------------------------------------------------------------------------
 
@@ -103,6 +126,7 @@ cntdat <- cntdatother %>%
     hex = as.numeric(hex)
   ) %>%
   bind_rows(cntdat2020) %>%
+  bind_rows(cntdat2022) %>%
   arrange(yr, id)
 
 save(cntdat, file = 'data/cntdat.RData', compress = 'xz')
