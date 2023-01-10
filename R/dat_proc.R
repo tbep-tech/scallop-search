@@ -1,15 +1,28 @@
 library(tidyverse)
 library(sf)
-library(readxl)
 library(here)
+library(googlesheets4)
+library(googledrive)
+
+gs4_deauth()
+drive_deauth()
 
 prj <- 4326
 
-# format excel data -------------------------------------------------------
+# google drive path
+gdrive_pth <- 'https://drive.google.com/drive/u/0/folders/1Z2DjoS0IJjudW5C8rpNCXvSIVVTvJdej'
+
+# google sheets in the drive
+fls <- drive_ls(gdrive_pth, type = 'spreadsheet')
+
+# format google drive data --------------------------------------------------------------------
 
 ## 2020 data --------------------------------------------------------------
 
-rawdat <- read_excel(here('data-raw/GBSS_2020_Results.xlsx'), na = '<Null>') %>%
+# sheet id
+id <- fls[grep('Scallop_Search_2020', fls$name), 'id'] %>% pull(id)
+
+rawdat <- read_sheet(id, na = '<Null>') %>%
   select(matches('^Site|^Scallop')) %>%
   rename(
     Site1 = `Site Number...2`,
@@ -39,10 +52,15 @@ cntdat2020 <- rawdat %>%
   ) %>%
   arrange(id, Site)
 
-## all other years --------------------------------------------------------
 
-fl <- here('data-raw/Scallop Seach Data.xlsx')
-shts <- excel_sheets(fl)
+# data up to 2019 -----------------------------------------------------------------------------
+
+# sheet id
+id <- fls[grep('Scallop_Search_to_2019', fls$name), 'id'] %>% pull(id)
+
+# tabs in sheet
+shts <- sheet_properties(id) %>%
+  pull(name)
 
 cntdatother <- NULL
 
@@ -50,7 +68,7 @@ cntdatother <- NULL
 for(sht in shts){
 
   cat(sht, '\n')
-  tmp <- read_excel(fl, sheet = sht) %>%
+  tmp <- read_sheet(id, sheet = sht) %>%
     mutate(
       yr = as.numeric(sht)
     )
