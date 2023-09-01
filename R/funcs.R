@@ -1,16 +1,19 @@
 # map results by year
-plo_fun <- function(cntdat, yr, colpal = NULL){
+plo_fun <- function(cntdat, yr, hexsf, colpal = NULL){
+
+  if(yr < 2023)
+    hexsf <- hexsf[hexsf$legacy, ]
 
   tomap <- cntdat %>%
     filter(yr == !!yr) %>%
-    dplyr::filter(hex %in% !!hex$hex) %>%
+    dplyr::filter(hex %in% !!hexsf$hex) %>%
     group_by(hex) %>%
     summarise(
       `Scallops found` = sum(`Scallops found`, na.rm = T),
       `Boats searching` = length(unique(id)),
       .groups = 'drop'
     ) %>%
-    left_join(hex, ., by = 'hex') %>%
+    left_join(hexsf, ., by = 'hex') %>%
     rename(Site = hex) %>%
     mutate(
       lab = case_when(
@@ -37,7 +40,7 @@ plo_fun <- function(cntdat, yr, colpal = NULL){
       label = ~lab
     ) %>%
     addLegend("topright", pal = colpal, title = 'Scallops found', values = tomap$`Scallops found`, opacity = 0.6) %>%
-    setView(-82.6914, 27.68572, zoom = 12)
+    setView(-82.6914, 27.68572, zoom = 11)
 
   return(out)
 

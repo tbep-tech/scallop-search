@@ -17,6 +17,48 @@ fls <- drive_ls(gdrive_pth, type = 'spreadsheet')
 
 # format google drive data --------------------------------------------------------------------
 
+# 2023 data -----------------------------------------------------------------------------------
+
+id <- fls[grep('Scallop_Search_2023', fls$name), 'id'] %>% pull(id)
+
+rawdat <- read_sheet(id)
+
+cntdat2023 <- rawdat %>%
+  select(
+    id = `Boat Captain`,
+    Site = `Transect Number`,
+    hex = `Hexagon Site Number`,
+    `Scallops found` = `Scallop Count`,
+    Notes
+  ) %>%
+  filter(!is.na(id)) %>%
+  filter(!grepl('^Test', Notes)) %>%
+  mutate(
+    id = as.numeric(factor(id)),
+    Site = case_when(
+      Site == 'First' ~ 'Site 1',
+      Site == 'Second' ~ 'Site 2',
+      Site == 'Third - optional' ~ 'Site 3'
+    ),
+    acthex = gsub(".*Hex (\\d+$)", "\\1", Notes),
+    acthex = as.numeric(gsub('[^0-9]', '', acthex)),
+    hex = ifelse(is.na(acthex), hex, acthex)
+  ) %>%
+  group_by(id, Site, hex) %>%
+  summarise(`Scallops found` = sum(`Scallops found`), .groups = 'drop') %>%
+  mutate(
+    yr = 2023
+  ) %>%
+  select(yr, everything()) %>%
+  arrange(id, Site) %>%
+  mutate(
+    Site2 = 1,
+    Site2 = cumsum(Site2), # there are some where Site is duplicated if hex corrected
+    Site2 = paste('Site', Site2),
+    .by = c('id', 'hex')
+  ) %>%
+  select(yr, id, Site = Site2, hex, `Scallops found`)
+
 # 2022 data -----------------------------------------------------------------------------------
 
 id <- fls[grep('Scallop_Search_2022', fls$name), 'id'] %>% pull(id)
@@ -127,14 +169,19 @@ cntdat <- cntdatother %>%
   ) %>%
   bind_rows(cntdat2020) %>%
   bind_rows(cntdat2022) %>%
+  bind_rows(cntdat2023) %>%
   arrange(yr, id)
 
 save(cntdat, file = 'data/cntdat.RData', compress = 'xz')
 
 # hex data ----------------------------------------------------------------
 
-hex <- st_read('data-raw/HexagonSites_Edited200910_Final.shp') %>%
+hex <- st_read('data-raw/2022_Hex_Update.shp') %>%
   st_transform(crs = prj) %>%
-  select(Bay_Segment = Bay_Segmen, hex = Site_Numbe)
+  select(Bay_Segment = Bay_Segmen, hex = Site_Numbe) %>%
+  mutate(legacy = case_when(
+    hex <= 229 ~ T, # this is the highest hex number from the original file HexagonSites_Edited200910_Final.shp
+    T ~ F
+  ))
 
 save(hex, file = 'data/hex.RData', compress = 'xz')

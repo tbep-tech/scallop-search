@@ -115,6 +115,40 @@ Citation info here: [![DOI](https://zenodo.org/badge/295835015.svg)](https://zen
 <div class = "col-md-2"></div>
 </div>
 
+2023 {data-navmenu="RESULTS BY YEAR"}
+=======================================================================
+
+Column
+-------------------------------------
+
+### `r txt`  
+
+```{r, out.width = '100%'}
+yr <- 2023
+plo_fun(cntdat, yr, hex)
+```
+
+Column
+-------------------------------------
+
+### 
+
+```{r}
+sclbox_fun(cntdat, yr)
+```
+
+###
+
+```{r}
+btsbox_fun(cntdat, yr)
+```
+
+###
+
+```{r}
+cntbox_fun(cntdat, yr)
+```
+
 2022 {data-navmenu="RESULTS BY YEAR"}
 =======================================================================
 
@@ -125,7 +159,7 @@ Column
 
 ```{r, out.width = '100%'}
 yr <- 2022
-plo_fun(cntdat, yr)
+plo_fun(cntdat, yr, hex)
 ```
 
 Column
@@ -159,7 +193,7 @@ Column
 
 ```{r, out.width = '100%'}
 yr <- 2020
-plo_fun(cntdat, yr)
+plo_fun(cntdat, yr, hex)
 ```
 
 Column
@@ -193,7 +227,7 @@ Column
 
 ```{r, out.width = '100%'}
 yr <- 2019
-plo_fun(cntdat, yr)
+plo_fun(cntdat, yr, hex)
 ```
 
 Column
@@ -227,7 +261,7 @@ Column
 
 ```{r, out.width = '100%'}
 yr <- 2017
-plo_fun(cntdat, yr)
+plo_fun(cntdat, yr, hex)
 ```
 
 Column
@@ -261,7 +295,7 @@ Column
 
 ```{r, out.width = '100%'}
 yr <- 2015
-plo_fun(cntdat, yr)
+plo_fun(cntdat, yr, hex)
 ```
 
 Column
@@ -295,7 +329,7 @@ Column
 
 ```{r, out.width = '100%'}
 yr <- 2014
-plo_fun(cntdat, yr)
+plo_fun(cntdat, yr, hex)
 ```
 
 Column
@@ -329,7 +363,7 @@ Column
 
 ```{r, out.width = '100%'}
 yr <- 2011
-plo_fun(cntdat, yr)
+plo_fun(cntdat, yr, hex)
 ```
 
 Column
@@ -363,7 +397,7 @@ Column
 
 ```{r, out.width = '100%'}
 yr <- 2010
-plo_fun(cntdat, yr)
+plo_fun(cntdat, yr, hex)
 ```
 
 Column
@@ -397,7 +431,7 @@ Column
 
 ```{r, out.width = '100%'}
 yr <- 2009
-plo_fun(cntdat, yr)
+plo_fun(cntdat, yr, hex)
 ```
 
 Column
@@ -431,7 +465,7 @@ Column
 
 ```{r, out.width = '100%'}
 yr <- 2008
-plo_fun(cntdat, yr)
+plo_fun(cntdat, yr, hex)
 ```
 
 Column
@@ -465,7 +499,7 @@ Column
 
 ```{r, out.width = '100%'}
 yr <- 2007
-plo_fun(cntdat, yr)
+plo_fun(cntdat, yr, hex)
 ```
 
 Column
