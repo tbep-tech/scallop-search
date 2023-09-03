@@ -54,7 +54,7 @@ sclbox_fun <- function(cntdat, yr){
     pull(`Scallops found`) %>%
     sum(na.rm = T)
 
-  out <- valueBox(cnts, paste('Scallops found in', yr), color = '#427355', icon = 'fa-search')
+  out <- valueBox(cnts, tags$p(paste('Scallops found in', yr), style = 'font-size: 150%'), color = '#427355', icon = 'fa-search')
 
   return(out)
 
@@ -69,7 +69,7 @@ btsbox_fun <- function(cntdat, yr){
     unique %>%
     length
 
-  out <- valueBox(cnts, paste('Boats searching in', yr), color = '#004F7E', icon = 'fa-ship')
+  out <- valueBox(cnts, tags$p(paste('Boats searching in', yr), style = 'font-size: 150%'),  color = '#004F7E', icon = 'fa-ship')
 
   return(out)
 
@@ -90,7 +90,7 @@ cntbox_fun <- function(cntdat, yr){
     ) %>%
     pull(totscl)
 
-  out <- valueBox(cnts, paste('Scallops per boat in', yr), color = '#958984', icon = 'fa-balance-scale')
+  out <- valueBox(cnts, tags$p(paste('Scallops per boat in', yr), style = 'font-size: 150%'), color = '#958984', icon = 'fa-balance-scale')
 
   return(out)
 

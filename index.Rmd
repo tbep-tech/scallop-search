@@ -20,6 +20,7 @@ library(flexdashboard)
 library(extrafont)
 library(leaflet)
 library(plotly)
+library(htmltools)
 
 source('R/funcs.R')
 
