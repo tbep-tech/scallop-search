@@ -1,3 +1,25 @@
+# leaflet basemap for plotting function
+bsmap_fun <- function(){
+
+  esri <- rev(grep("^Esri", leaflet::providers, value = TRUE))
+  esri <- esri[!grepl('DeLorme', esri)]
+
+  m <- leaflet::leaflet() %>%
+    leaflet::setView(-82.6914, 27.68572, zoom = 11)
+
+  for (provider in esri) {
+    m <- m %>% leaflet::addProviderTiles(provider, group = provider)
+  }
+
+  out <- m %>%
+    leaflet::addLayersControl(baseGroups = names(esri),
+                              options = leaflet::layersControlOptions(collapsed = T),
+                              position = 'topleft')
+
+  return(out)
+
+}
+
 # map results by year
 plo_fun <- function(cntdat, yr, hexsf, colpal = NULL){
 
@@ -10,6 +32,7 @@ plo_fun <- function(cntdat, yr, hexsf, colpal = NULL){
   if(yr == 2024) # all, but added for posterity
     hexsf <- hexsf[hexsf$yr %in% c('pre 2023', 'added 2023', 'added 2024'), ]
 
+  # polygons
   tomap <- cntdat %>%
     filter(yr == !!yr) %>%
     dplyr::filter(hex %in% !!hexsf$hex) %>%
@@ -29,12 +52,20 @@ plo_fun <- function(cntdat, yr, hexsf, colpal = NULL){
       )
     )
 
+  # text labels
+  totxt <- suppressWarnings({
+    tomap %>%
+      select(`Scallops found`) %>%
+      filter(!is.na(`Scallops found`) & `Scallops found` > 0) %>%
+      st_centroid()
+  })
+
   if(is.null(colpal))
     colpal <- colorNumeric(palette = c('tomato1', 'lightgreen', '#00806E'), na.color = "#FFFFFF00", domain = range(tomap$`Scallops found`, na.rm = T), alpha = TRUE)
 
-  out <- mapview(tomap, legend = F, fill = NA, homebutton = F) %>%
-    .@map %>%
-    clearShapes() %>%
+  bsmap <- bsmap_fun()
+
+  out <- bsmap %>%
     addPolygons(
       data = tomap,
       stroke = T,
@@ -45,8 +76,9 @@ plo_fun <- function(cntdat, yr, hexsf, colpal = NULL){
       opacity = 1,
       label = ~lab
     ) %>%
-    addLegend("topright", pal = colpal, title = 'Scallops found', values = tomap$`Scallops found`, opacity = 0.6) %>%
-    setView(-82.6914, 27.68572, zoom = 11)
+    addLabelOnlyMarkers(data = totxt, label = ~as.character(`Scallops found`),
+                        labelOptions = leaflet::labelOptions(noHide = T, textOnly = T, direction = 'center')) %>%
+    addLegend("topright", pal = colpal, title = 'Scallops found', values = tomap$`Scallops found`, opacity = 0.6)
 
   return(out)
 
