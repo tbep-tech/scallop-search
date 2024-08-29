@@ -2,7 +2,13 @@
 plo_fun <- function(cntdat, yr, hexsf, colpal = NULL){
 
   if(yr < 2023)
-    hexsf <- hexsf[hexsf$legacy, ]
+    hexsf <- hexsf[hexsf$yr == 'pre 2023', ]
+
+  if(yr == 2023)
+    hexsf <- hexsf[hexsf$yr %in% c('pre 2023', 'added 2023'), ]
+
+  if(yr == 2024) # all, but added for posterity
+    hexsf <- hexsf[hexsf$yr %in% c('pre 2023', 'added 2023', 'added 2024'), ]
 
   tomap <- cntdat %>%
     filter(yr == !!yr) %>%

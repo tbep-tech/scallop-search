@@ -17,6 +17,41 @@ fls <- drive_ls(gdrive_pth, type = 'spreadsheet')
 
 # format google drive data --------------------------------------------------------------------
 
+# 2024 data -----------------------------------------------------------------------------------
+
+id <- fls[grep('Scallop_Search_2024', fls$name), 'id'] %>% pull(id)
+
+rawdat <- read_sheet(id)
+
+# hex as zero means corrected hex was outside of boundaries, entries retained for total boat count
+cntdat2024 <- rawdat %>%
+  filter(!is.na(`OBJECTID`)) %>%
+  select(
+    id = `Boat Captain`,
+    hexorig = `Hexagon Number from Submitted Survey`,
+    hex = `Updated Hex # Post Review`,
+    `Scallops found` = `Scallops`
+  ) %>%
+  mutate(
+    id = as.numeric(factor(id)),
+    hex = case_when(
+      hex == 0 & id == 21 ~ 83, # these were corrected hex numbers that were outside, but contained scalloped, used original hex
+      hex == 0 & id == 11 ~ 56,
+      T ~ hex
+    )
+  ) %>%
+  select(-hexorig) %>%
+  mutate(
+    Site = 1:n(),
+    .by = id
+  ) %>%
+  mutate(
+    yr = 2024,
+    Site = paste0('Site', Site)
+  ) %>%
+  select(yr, everything()) %>%
+  arrange(id, Site)
+
 # 2023 data -----------------------------------------------------------------------------------
 
 id <- fls[grep('Scallop_Search_2023', fls$name), 'id'] %>% pull(id)
@@ -170,18 +205,21 @@ cntdat <- cntdatother %>%
   bind_rows(cntdat2020) %>%
   bind_rows(cntdat2022) %>%
   bind_rows(cntdat2023) %>%
+  bind_rows(cntdat2024) %>%
   arrange(yr, id)
 
 save(cntdat, file = 'data/cntdat.RData', compress = 'xz')
 
 # hex data ----------------------------------------------------------------
 
-hex <- st_read('data-raw/2022_Hex_Update.shp') %>%
+hex <- st_read(here('data-raw/2024_GBSS_Hex_Update.shp')) %>%
   st_transform(crs = prj) %>%
   select(Bay_Segment = Bay_Segmen, hex = Site_Numbe) %>%
-  mutate(legacy = case_when(
-    hex <= 229 ~ T, # this is the highest hex number from the original file HexagonSites_Edited200910_Final.shp
-    T ~ F
-  ))
+  mutate(yr = case_when(
+    hex < 301 ~ 'pre 2023',
+    hex %in% c(301:340) ~ 'added 2023',
+    hex %in% c(401:433) ~ 'added 2024'
+    )
+  )
 
 save(hex, file = 'data/hex.RData', compress = 'xz')

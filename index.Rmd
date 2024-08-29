@@ -116,6 +116,40 @@ Citation info here: [![DOI](https://zenodo.org/badge/295835015.svg)](https://zen
 <div class = "col-md-2"></div>
 </div>
 
+2024 {data-navmenu="RESULTS BY YEAR"}
+=======================================================================
+
+Column
+-------------------------------------
+
+### `r txt`  
+
+```{r, out.width = '100%'}
+yr <- 2024
+plo_fun(cntdat, yr, hex)
+```
+
+Column
+-------------------------------------
+
+### 
+
+```{r}
+sclbox_fun(cntdat, yr)
+```
+
+###
+
+```{r}
+btsbox_fun(cntdat, yr)
+```
+
+###
+
+```{r}
+cntbox_fun(cntdat, yr)
+```
+
 2023 {data-navmenu="RESULTS BY YEAR"}
 =======================================================================
 
