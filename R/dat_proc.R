@@ -17,6 +17,33 @@ fls <- drive_ls(gdrive_pth, type = 'spreadsheet')
 
 # format google drive data --------------------------------------------------------------------
 
+# 2025 data -----------------------------------------------------------------------------------
+
+id <- fls[grep('Scallop_Search_2025', fls$name), 'id'] %>% pull(id)
+
+rawdat <- read_sheet(id)
+
+cntdat2025 <- rawdat %>%
+  select(
+    id = `Boat Captain`,
+    hex = `Hexagon Site Number`,
+    `Scallops found` = `Bay Scallop Count`
+  ) %>%
+  mutate(
+    id = as.numeric(factor(id)), 
+    hex = as.numeric(unlist(hex))
+  ) %>%
+  mutate(
+    Site = 1:n(),
+    .by = id
+  ) %>%
+  mutate(
+    yr = 2025,
+    Site = paste0('Site', Site)
+  ) %>%
+  select(yr, everything()) %>%
+  arrange(id, Site)
+
 # 2024 data -----------------------------------------------------------------------------------
 
 id <- fls[grep('Scallop_Search_2024', fls$name), 'id'] %>% pull(id)
