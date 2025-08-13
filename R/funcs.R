@@ -33,24 +33,7 @@ plo_fun <- function(cntdat, yr, hexsf, colpal = NULL){
     hexsf <- hexsf[hexsf$yr %in% c('pre 2023', 'added 2023', 'added 2024'), ]
 
   # polygons
-  tomap <- cntdat %>%
-    filter(yr == !!yr) %>%
-    dplyr::filter(hex %in% !!hexsf$hex) %>%
-    group_by(hex) %>%
-    summarise(
-      `Scallops found` = sum(`Scallops found`, na.rm = T),
-      `Boats searching` = length(unique(id)),
-      .groups = 'drop'
-    ) %>%
-    left_join(hexsf, ., by = 'hex') %>%
-    rename(Site = hex) %>%
-    mutate(
-      lab = case_when(
-        is.na(`Scallops found`) ~ paste0('Site ', Site, ', not searched'),
-        `Boats searching` == 1 ~ paste0('Site ', Site, ', ', `Scallops found`, ' scallops found, ', `Boats searching`, ' boat searching'),
-        T ~ paste0('Site ', Site, ', ', `Scallops found`, ' scallops found, ', `Boats searching`, ' boats searching')
-      )
-    )
+  tomap <- spacmb_fun(cntdat, hexsf, yr)
 
   # text labels
   totxt <- suppressWarnings({
@@ -79,6 +62,75 @@ plo_fun <- function(cntdat, yr, hexsf, colpal = NULL){
     addLabelOnlyMarkers(data = totxt, label = ~as.character(`Scallops found`),
                         labelOptions = leaflet::labelOptions(noHide = T, textOnly = T, direction = 'center')) %>%
     addLegend("topright", pal = colpal, title = 'Scallops found', values = tomap$`Scallops found`, opacity = 0.6)
+
+  return(out)
+
+}
+
+# function to combine cntdat and hex by year
+# handles duplicate hex differently
+# if dup, combines by hex and bay segment, otherwise just hex
+# assumes dup hexes have correct bay segment, see check in dat_proc
+spacmb_fun <- function(cntdat, hexsf, yr){
+
+  tomap <- cntdat %>%
+    filter(yr == !!yr) %>%
+    dplyr::filter(hex %in% !!hexsf$hex)
+
+  if(any(tomap$dups)){
+
+    tomapdups <- tomap %>%
+      filter(dups) %>%
+      group_by(hex, Bay_Segment) %>%
+      summarise(
+        `Scallops found` = sum(`Scallops found`, na.rm = T),
+        `Boats searching` = length(unique(id)),
+        .groups = 'drop'
+      ) %>%
+      inner_join(hexsf, ., by = c('hex', 'Bay_Segment'))
+
+    tomapnodups <- tomap %>%
+      filter(!dups) %>%
+      group_by(hex) %>%
+      summarise(
+        `Scallops found` = sum(`Scallops found`, na.rm = T),
+        `Boats searching` = length(unique(id)),
+        .groups = 'drop'
+      ) %>%
+      inner_join(hexsf, ., by = c('hex'))
+
+    rmhex <- bind_rows(tomapdups, tomapnodups) %>%
+      select(hex, Bay_Segment) %>%
+      distinct() %>%
+      st_drop_geometry()
+    hexnosearch <- anti_join(hexsf, rmhex, by = c('hex', 'Bay_Segment')) %>%
+      mutate(`Scallops found` = NA_real_, `Boats searching` = 0)
+
+    tomap <- bind_rows(tomapdups, tomapnodups, hexnosearch) %>%
+      select(-Bay_Segment)
+
+  } else {
+
+    tomap <- tomap %>%
+      group_by(hex) %>%
+      summarise(
+        `Scallops found` = sum(`Scallops found`, na.rm = T),
+        `Boats searching` = length(unique(id)),
+        .groups = 'drop'
+      ) %>%
+      left_join(hexsf, ., by = c('hex'))
+
+  }
+
+  out <- tomap %>%
+    rename(Site = hex) %>%
+    mutate(
+    lab = case_when(
+      is.na(`Scallops found`) ~ paste0('Site ', Site, ', not searched'),
+      `Boats searching` == 1 ~ paste0('Site ', Site, ', ', `Scallops found`, ' scallops found, ', `Boats searching`, ' boat searching'),
+      T ~ paste0('Site ', Site, ', ', `Scallops found`, ' scallops found, ', `Boats searching`, ' boats searching')
+    )
+  )
 
   return(out)
 
