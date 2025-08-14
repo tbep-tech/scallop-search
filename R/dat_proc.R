@@ -43,11 +43,27 @@ cntdat2025 <- rawdat %>%
   select(
     id = `Boat Captain`,
     hex = `Hexagon Site Number`,
+    Bay_Segment = `Bay Segment`,
     `Scallops found` = `Bay Scallop Count`
   ) %>%
   mutate(
+    id = case_when(
+      id == 'Cunningham' ~ 'Harry Cunningham', # correct names for obvious typos
+      id == 'Alexander short' ~ 'Alexander Short', 
+      id == 'Dave Walker' ~ 'David Walker', 
+      id == 'Lars lund' ~ 'Lars Lund',
+      id == 'Michael Seel' ~ 'Michael Steel',
+      id == 'Mike Traver' ~ 'Mike Trevar', 
+      id == 'Mike Yraver' ~ 'Mike Trevar', 
+      id == 'Patrick' ~ 'Patrick Tomlin', 
+      T ~ id
+    ),
     id = as.numeric(factor(id)), 
-    hex = as.numeric(unlist(hex))
+    hex = as.numeric(unlist(hex)), 
+    Bay_Segment = as.character(factor(Bay_Segment,
+      levels = c('Lower Tampa Bay', 'Boca Ciega Bay', 'Middle Tampa Bay'),
+      labels = c('LTB', 'BCB', 'MTB')
+    )),
   ) %>%
   mutate(
     Site = 1:n(),
@@ -57,7 +73,7 @@ cntdat2025 <- rawdat %>%
     yr = 2025,
     Site = paste0('Site', Site)
   ) %>%
-  select(yr, everything()) %>%
+  select(yr, id, Site, everything()) %>%
   arrange(id, Site)
 
 # 2024 data -----------------------------------------------------------------------------------
@@ -301,6 +317,7 @@ cntdat <- cntdatother %>%
   bind_rows(cntdat2022) %>%
   bind_rows(cntdat2023) %>%
   bind_rows(cntdat2024) %>%
+  bind_rows(cntdat2025) %>%
   mutate(
     dups = hex %in% duphex
   ) %>%
