@@ -29,9 +29,15 @@ plo_fun <- function(cntdat, yr, hexsf, colpal = NULL){
   if(yr == 2023)
     hexsf <- hexsf[hexsf$yr %in% c('pre 2023', 'added 2023'), ]
 
-  if(yr == 2024) # all, but added for posterity
+  if(yr == 2024) 
+    hexsf <- hexsf[hexsf$yr %in% c('pre 2023', 'added 2023', 'added 2024'), ]
+  
+  if(yr == 2025) 
     hexsf <- hexsf[hexsf$yr %in% c('pre 2023', 'added 2023', 'added 2024'), ]
 
+  if(yr >= 2026) # all, but added for posterity
+    hexsf <- hexsf[hexsf$yr %in% c('pre 2023', 'added 2023', 'added 2024', 'added 2026'), ]
+  
   # polygons
   tomap <- spacmb_fun(cntdat, hexsf, yr)
 

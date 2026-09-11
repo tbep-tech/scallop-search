@@ -17,14 +17,21 @@ fls <- drive_ls(gdrive_pth, type = 'spreadsheet')
 
 # hex data ----------------------------------------------------------------
 
+# new 2026 polys
+hex2026 <- st_read(here('data-raw/NorthernPinellasHexes.shp')) |> 
+  select(Bay_Segment = Bay_Segmen, hex = Site_Numbe) |> 
+  st_transform(crs = prj) 
+
 hex <- st_read(here('data-raw/2024_GBSS_Hex_Update.shp')) %>%
   st_transform(crs = prj) %>%
   select(Bay_Segment = Bay_Segmen, hex = Site_Numbe) %>%
+  bind_rows(hex2026) %>%
   mutate(
     yr = case_when(
       hex < 301 ~ 'pre 2023',
       hex %in% c(301:340) ~ 'added 2023',
-      hex %in% c(401:433) ~ 'added 2024'
+      hex %in% c(401:433) ~ 'added 2024', 
+      hex %in% c(501:755) ~ 'added 2026'
     ),
     dups = ifelse(duplicated(hex) | duplicated(hex, fromLast = TRUE), T, F)
   )
@@ -32,6 +39,49 @@ hex <- st_read(here('data-raw/2024_GBSS_Hex_Update.shp')) %>%
 save(hex, file = 'data/hex.RData', compress = 'xz')
 
 # format google drive data --------------------------------------------------------------------
+
+# 2026 data --------------------------------------------------------------
+
+id <- fls[grep('Scallop_Search_2026', fls$name), 'id'] %>% pull(id)
+
+rawdat <- read_sheet(id)
+
+cntdat2026 <- rawdat %>%
+  select(
+    id = `Boat Captain`,
+    hex = `Hexagon Site Number`,
+    Bay_Segment = `Bay Segment`,
+    `Scallops found` = `Live Bay Scallop Count`
+  ) %>%
+  mutate(
+    id = case_when(
+      id == 'Eric plage' ~ 'Eric Plage', # correct names for obvious typos
+      id == 'Gary crowder' ~ 'Gary Crowder', 
+      id == 'Jennifer' ~ 'Jennifer Galbraith', 
+      id == 'Jodi walzer' ~ 'Jodi Walzer',
+      id == 'Joseph' ~ 'Joseph Fala',
+      id == 'Joseph fala' ~ 'Joseph Fala',
+      id == 'Maryann zwirko' ~ 'Maryann Zwirko',
+      id == 'Tyler moffatt' ~ 'Tyler Moffatt',
+      T ~ id
+    ),
+    id = as.numeric(factor(id)), 
+    hex = as.numeric(unlist(hex)), 
+    Bay_Segment = as.character(factor(Bay_Segment,
+      levels = c('Lower Tampa Bay', 'Boca Ciega Bay', 'Middle Tampa Bay', 'Dunedin Causeway'),
+      labels = c('LTB', 'BCB', 'MTB', 'SJS')
+    )),
+  ) %>%
+  mutate(
+    Site = 1:n(),
+    .by = id
+  ) %>%
+  mutate(
+    yr = 2026,
+    Site = paste0('Site', Site)
+  ) %>%
+  select(yr, id, Site, everything()) %>%
+  arrange(id, Site)
 
 # 2025 data -----------------------------------------------------------------------------------
 
@@ -318,6 +368,7 @@ cntdat <- cntdatother %>%
   bind_rows(cntdat2023) %>%
   bind_rows(cntdat2024) %>%
   bind_rows(cntdat2025) %>%
+  bind_rows(cntdat2026) %>%
   mutate(
     dups = hex %in% duphex
   ) %>%
