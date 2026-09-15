@@ -63,7 +63,7 @@ plo_fun <- function(cntdat, yr, hexsf, colpal = NULL){
       fillColor = ~colpal(`Scallops found`),
       fillOpacity = 0.4,
       opacity = 1,
-      label = ~lab
+      label = lapply(tomap$lab, htmltools::HTML)
     ) %>%
     addLabelOnlyMarkers(data = totxt, label = ~as.character(`Scallops found`),
                         labelOptions = leaflet::labelOptions(noHide = T, textOnly = T, direction = 'center')) %>%
@@ -132,11 +132,9 @@ spacmb_fun <- function(cntdat, hexsf, yr){
     rename(Site = hex) %>%
     mutate(
       lab = case_when(
-        is.na(`Scallops found`) ~ paste0('Site ', Site, ', not searched'),
-        T ~ paste0('Site ', Site, ', ', `Scallops found`, ' scallops found, ', `Boats searching`, ' boats searching')
-      ), 
-      lab = gsub('1\\sboats', '1 boat', lab),
-      lab = gsub('1\\sscallops', '1 scallop', lab)
+        is.na(`Scallops found`) ~ paste0('<strong>Site: </strong>', Site, '<br/>Not searched'),
+        T ~ paste0('<strong>Site: </strong>', Site, '<br/><strong>Scallops found: </strong>', `Scallops found`, '<br/><strong>Boats searching: </strong>', `Boats searching`)
+      )
   )
 
   return(out)
